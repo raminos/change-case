@@ -13,26 +13,18 @@ const removeNonAlphaNumericChars = (
     .filter(Boolean);
 };
 
-const createKebabCase = (words: Array<string>): string => {
-  return words.join("-");
-};
+const createKebabCase = (words: Array<string>): string => words.join("-");
 
-const createSnakeCase = (words: Array<string>): string => {
-  return words.join("_");
-};
+const createSnakeCase = (words: Array<string>): string => words.join("_");
 
-const createFlatCase = (words: Array<string>): string => {
-  return words.join("");
-};
+const createFlatCase = (words: Array<string>): string => words.join("")
+
+const createPascalCase = (words: Array<string>): string => upperCaseWords(words).join("")
 
 const createCamelCase = (words: Array<string>): string => {
   const [first, ...rest] = words;
   return `${first}${upperCaseWords(rest).join("")}`;
 };
-
-const createPascalCase = (words: Array<string>): string => (
-  upperCaseWords(words).join("")
-);
 
 const upperCaseWords = (words: Array<string>): Array<string> => (
   words
