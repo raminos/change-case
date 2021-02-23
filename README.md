@@ -5,13 +5,14 @@ This is a small cli tool used to change the case of a given string
 ## Installation
 You need to have Deno installed to use this tool. If you haven't check out its [installation guide](https://deno.land/manual/getting_started/installation)
 
-```
+```sh
 deno install -n change-case https://github.com/raminos/change-case/blob/master/main.ts
 
 # If you haven't done it yet add deno to your path like this
+
 echo 'export PATH="$HOME/.deno/bin:$PATH"' >> ~/.zshrc
 
-```
+```sh
 
 ## Usage
 Supports snake, kebab, flat, camel and pascal case.
