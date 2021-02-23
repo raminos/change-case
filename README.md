@@ -12,12 +12,12 @@ deno install -n change-case https://github.com/raminos/change-case/blob/master/m
 
 echo 'export PATH="$HOME/.deno/bin:$PATH"' >> ~/.zshrc
 
-```sh
+```
 
 ## Usage
 Supports snake, kebab, flat, camel and pascal case.
 
-```
+```sh
 
 $ change-case -c "Hello World"
 helloWorld
