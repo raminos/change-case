@@ -51,4 +51,9 @@ hello_world
 $ change-case --snake "Hello World"
 hello_world
 
+# Also supports pipes
+
+$ echo "Hello World" | change-case --snake
+hello_world
+
 ```
