@@ -51,6 +51,18 @@ hello_world
 $ change-case --snake "Hello World"
 hello_world
 
+$ change-case -sk "Hello World"
+HELLO-WORLD
+
+$ change-case --screaming-kebab "Hello World"
+HELLO-WORLD
+
+$ change-case -ss "Hello World"
+HELLO_WORLD
+
+$ change-case --screaming-snake "Hello World"
+HELLO_WORLD
+
 # Supports using a cased string as an input
 
 $ change-case --snake "hello_world"
@@ -60,6 +72,12 @@ $ change-case --snake "helloWorld"
 hello-world
 
 $ change-case --snake "HelloWorld"
+hello-world
+
+$ change-case --snake "HELLO-WORLD"
+hello-world
+
+$ change-case --snake "HELLO_WORLD"
 hello-world
 
 # Supports pipes
