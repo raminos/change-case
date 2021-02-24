@@ -22,6 +22,8 @@ const joinArraysOfLettersToWords = (
 );
 
 const splitWordsWithCaseChange = (words: Array<string>): Array<string> => {
+  if (words.every((word) => isCaseless(word))) return words;
+
   return words.reduce((newWords: Array<string>, word) => {
     let isWordBeginning = true;
     let splittedWordsLetters: Array<Array<string>> = [[]];
@@ -132,20 +134,19 @@ async function main(args: Array<string>): Promise<void> {
 
   const input = argumentInput ? String(argumentInput) : pipedInput;
   const splittedInput = splitInput(input);
-  const splittedWords = removeNonAlphaNumericChars(splittedInput);
-  const splittedCaselessWords = splittedWords.every((word) => isCaseless(word))
-    ? splittedWords
-    : splitWordsWithCaseChange(splittedWords);
+  const splittedWords = pipe(
+    removeNonAlphaNumericChars,
+    splitWordsWithCaseChange,
+    lowerCaseWords,
+  )(splittedInput);
 
-  const lowerCasedWords = lowerCaseWords(splittedCaselessWords);
-
-  if (kebab) console.log(createKebabCase(lowerCasedWords));
-  if (snake) console.log(createSnakeCase(lowerCasedWords));
-  if (flat) console.log(createFlatCase(lowerCasedWords));
-  if (camel) console.log(createCamelCase(lowerCasedWords));
-  if (pascal) console.log(createPascalCase(lowerCasedWords));
-  if (screamingKebab) console.log(createScreamingKebabCase(lowerCasedWords));
-  if (screamingSnake) console.log(createScreamingSnakeCase(lowerCasedWords));
+  if (kebab) console.log(createKebabCase(splittedWords));
+  if (snake) console.log(createSnakeCase(splittedWords));
+  if (flat) console.log(createFlatCase(splittedWords));
+  if (camel) console.log(createCamelCase(splittedWords));
+  if (pascal) console.log(createPascalCase(splittedWords));
+  if (screamingKebab) console.log(createScreamingKebabCase(splittedWords));
+  if (screamingSnake) console.log(createScreamingSnakeCase(splittedWords));
 }
 
 main(Deno.args);
