@@ -52,13 +52,13 @@ hello_world
 $ change-case --snake "Hello World"
 hello_world
 
-$ change-case -sk "Hello World"
+$ change-case -K "Hello World"
 HELLO-WORLD
 
 $ change-case --screaming-kebab "Hello World"
 HELLO-WORLD
 
-$ change-case -ss "Hello World"
+$ change-case -S "Hello World"
 HELLO_WORLD
 
 $ change-case --screaming-snake "Hello World"
