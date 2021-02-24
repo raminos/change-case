@@ -90,6 +90,17 @@ const createScreamingSnakeCase = (words: Array<string>): string => (
   upperCaseWords(words).join("_")
 );
 
+const getPipeInput = async (): Promise<string> => {
+  let pipedInput = "";
+  if (Deno.isatty(Deno.stdin.rid)) return pipedInput;
+
+  for await (const line of readLines(Deno.stdin)) {
+    pipedInput += line;
+  }
+
+  return pipedInput;
+};
+
 async function main(args: Array<string>): Promise<void> {
   const {
     kebab,
@@ -125,14 +136,7 @@ async function main(args: Array<string>): Promise<void> {
     },
   );
 
-  let pipedInput = "";
-  if (!Deno.isatty(Deno.stdin.rid)) {
-    for await (const line of readLines(Deno.stdin)) {
-      pipedInput += line;
-    }
-  }
-
-  const input = argumentInput ? String(argumentInput) : pipedInput;
+  const input = argumentInput ? String(argumentInput) : await getPipeInput();
   const splittedInput = splitInput(input);
   const splittedWords = pipe(
     removeNonAlphaNumericChars,
