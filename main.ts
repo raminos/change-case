@@ -8,7 +8,7 @@ const pipe = <R>(...fns: Array<(a: R) => R>) => (
   fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)))
 );
 
-const splitWords = (input: string): Array<string> => {
+const splitInput = (input: string): Array<string> => {
   return input.split(/[ _-]/g);
 };
 
@@ -131,7 +131,7 @@ async function main(args: Array<string>): Promise<void> {
   }
 
   const input = argumentInput ? String(argumentInput) : pipedInput;
-  const splittedInput = splitWords(input);
+  const splittedInput = splitInput(input);
   const splittedWords = removeNonAlphaNumericChars(splittedInput);
   const splittedCaselessWords = splittedWords.every((word) => isCaseless(word))
     ? splittedWords
