@@ -51,7 +51,18 @@ hello_world
 $ change-case --snake "Hello World"
 hello_world
 
-# Also supports pipes
+# Supports using a cased string as an input
+
+$ change-case --snake "hello_world"
+hello-world
+
+$ change-case --snake "helloWorld"
+hello-world
+
+$ change-case --snake "HelloWorld"
+hello-world
+
+# Supports pipes
 
 $ echo "Hello World" | change-case --snake
 hello_world
