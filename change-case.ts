@@ -21,24 +21,28 @@ const joinArraysOfLettersToWords = (
   }, [])
 );
 
+const splitWordWithCaseChange = (word: string): Array<string> => {
+  let isWordBeginning = true;
+  let splittedWordsLetters: Array<Array<string>> = [[]];
+
+  for (const letter of word) {
+    if (letter.match(/[A-Z]/) && !isWordBeginning) {
+      splittedWordsLetters.push([letter]);
+      isWordBeginning = true;
+    } else {
+      splittedWordsLetters[splittedWordsLetters.length - 1].push(letter);
+      isWordBeginning = false;
+    }
+  }
+
+  return joinArraysOfLettersToWords(splittedWordsLetters);
+};
+
 const splitWordsWithCaseChange = (words: Array<string>): Array<string> => {
   if (words.every((word) => isCaseless(word))) return words;
 
   return words.reduce((newWords: Array<string>, word) => {
-    let isWordBeginning = true;
-    let splittedWordsLetters: Array<Array<string>> = [[]];
-
-    for (const letter of word) {
-      if (letter.match(/[A-Z]/) && !isWordBeginning) {
-        splittedWordsLetters.push([letter]);
-        isWordBeginning = true;
-      } else {
-        splittedWordsLetters[splittedWordsLetters.length - 1].push(letter);
-        isWordBeginning = false;
-      }
-    }
-
-    const splittedWords = joinArraysOfLettersToWords(splittedWordsLetters);
+    const splittedWords = splitWordWithCaseChange(word);
     return newWords.concat(splittedWords);
   }, []);
 };
