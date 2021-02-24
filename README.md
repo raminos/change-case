@@ -17,7 +17,8 @@ echo 'export PATH="$HOME/.deno/bin:$PATH"' >> ~/.zshrc
 
 ## Usage
 
-Supports snake, kebab, flat, camel and pascal case.
+Supports snake, kebab, flat, camel, pascal, scraming snake and screaming
+kebab case. All non alphanumeric symbols will be filtered out.
 
 ```sh
 
@@ -66,19 +67,22 @@ HELLO_WORLD
 # Supports using a cased string as an input
 
 $ change-case --snake "hello_world"
-hello-world
+hello_world
+
+$ change-case --snake "hello-world"
+hello_world
 
 $ change-case --snake "helloWorld"
-hello-world
+hello_world
 
 $ change-case --snake "HelloWorld"
-hello-world
+hello_world
 
 $ change-case --snake "HELLO-WORLD"
-hello-world
+hello_world
 
 $ change-case --snake "HELLO_WORLD"
-hello-world
+hello_world
 
 # Supports pipes
 
