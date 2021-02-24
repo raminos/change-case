@@ -1,8 +1,8 @@
 import { parse } from "https://deno.land/std/flags/mod.ts";
 import { readLines } from "https://deno.land/std/io/bufio.ts";
 
-const IS_CASELESS_REGEX = /^([a-z]+|[A-Z]+)$/g
-const isCaseless = (word: string): boolean => !!word.match(IS_CASELESS_REGEX)
+const IS_CASELESS_REGEX = /^([a-z]+|[A-Z]+)$/g;
+const isCaseless = (word: string): boolean => !!word.match(IS_CASELESS_REGEX);
 
 const pipe = <R>(...fns: Array<(a: R) => R>) => (
   fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)))
@@ -12,12 +12,14 @@ const splitWords = (input: string): Array<string> => {
   return input.split(/[ _-]/g);
 };
 
-const joinArraysOfLettersToWords = (arraysOfLetters: Array<Array<string>>): Array<string> => (
+const joinArraysOfLettersToWords = (
+  arraysOfLetters: Array<Array<string>>,
+): Array<string> => (
   arraysOfLetters.reduce((wordArray, letterArray) => {
     wordArray.push(letterArray.join(""));
     return wordArray;
   }, [])
-)
+);
 
 const splitWordsWithCaseChange = (words: Array<string>): Array<string> => {
   return words.reduce((newWords: Array<string>, word) => {
@@ -34,7 +36,7 @@ const splitWordsWithCaseChange = (words: Array<string>): Array<string> => {
       }
     }
 
-    const splittedWords = joinArraysOfLettersToWords(splittedWordsLetters)
+    const splittedWords = joinArraysOfLettersToWords(splittedWordsLetters);
     return newWords.concat(splittedWords);
   }, []);
 };
@@ -80,11 +82,11 @@ const createCamelCase = (words: Array<string>): string => {
 
 const createScreamingKebabCase = (words: Array<string>): string => (
   upperCaseWords(words).join("-")
-)
+);
 
 const createScreamingSnakeCase = (words: Array<string>): string => (
   upperCaseWords(words).join("_")
-)
+);
 
 async function main(args: Array<string>): Promise<void> {
   const {
@@ -93,8 +95,8 @@ async function main(args: Array<string>): Promise<void> {
     snake,
     pascal,
     flat,
-    'screaming-kebab': screamingKebab,
-    'screaming-snake': screamingSnake,
+    "screaming-kebab": screamingKebab,
+    "screaming-snake": screamingSnake,
     _: [argumentInput],
   } = parse(
     args,
@@ -106,7 +108,7 @@ async function main(args: Array<string>): Promise<void> {
         "p": "pascal",
         "f": "flat",
         "sk": "screaming-kebab",
-        "ss": "screaming-snake"
+        "ss": "screaming-snake",
       },
       boolean: [
         "k",
@@ -130,20 +132,20 @@ async function main(args: Array<string>): Promise<void> {
 
   const input = argumentInput ? String(argumentInput) : pipedInput;
   const splittedInput = splitWords(input);
-  const splittedWords = removeNonAlphaNumericChars(splittedInput)
-  const splittedCaselessWords = splittedWords.every(word => isCaseless(word))
+  const splittedWords = removeNonAlphaNumericChars(splittedInput);
+  const splittedCaselessWords = splittedWords.every((word) => isCaseless(word))
     ? splittedWords
-    : splitWordsWithCaseChange(splittedWords)
+    : splitWordsWithCaseChange(splittedWords);
 
-  const lowerCasedWords = lowerCaseWords(splittedCaselessWords)
+  const lowerCasedWords = lowerCaseWords(splittedCaselessWords);
 
   if (kebab) console.log(createKebabCase(lowerCasedWords));
   if (snake) console.log(createSnakeCase(lowerCasedWords));
   if (flat) console.log(createFlatCase(lowerCasedWords));
   if (camel) console.log(createCamelCase(lowerCasedWords));
   if (pascal) console.log(createPascalCase(lowerCasedWords));
-  if (screamingKebab) console.log(createScreamingKebabCase(lowerCasedWords))
-  if (screamingSnake) console.log(createScreamingSnakeCase(lowerCasedWords))
+  if (screamingKebab) console.log(createScreamingKebabCase(lowerCasedWords));
+  if (screamingSnake) console.log(createScreamingSnakeCase(lowerCasedWords));
 }
 
 main(Deno.args);
