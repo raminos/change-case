@@ -102,7 +102,6 @@ function createScreamingSnakeCase(words: Array<string>): string {
 
 async function getPipeInput(): Promise<string> {
   let pipedInput = "";
-  if (Deno.isatty(Deno.stdin.rid)) return pipedInput;
 
   for await (const line of readLines(Deno.stdin)) {
     pipedInput += line;
