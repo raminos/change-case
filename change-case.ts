@@ -4,7 +4,7 @@ import { readLines } from "https://deno.land/std/io/bufio.ts";
 const IS_CASELESS_REGEX = /^([a-z]+|[A-Z]+)$/g;
 const isCaseless = (word: string): boolean => !!word.match(IS_CASELESS_REGEX);
 
-const pipe = <R>(...fns: Array<(a: R) => R>) => (
+const compose = <R>(...fns: Array<(a: R) => R>) => (
   fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)))
 );
 
@@ -141,20 +141,20 @@ async function main(args: Array<string>): Promise<void> {
   );
 
   const input = argumentInput ? String(argumentInput) : await getPipeInput();
-  const splittedInput = splitInput(input);
-  const splittedWords = pipe(
+  const inputs = splitInput(input);
+  const words = compose(
     removeNonAlphaNumericChars,
     splitWordsWithCaseChange,
     lowerCaseWords,
-  )(splittedInput);
+  )(inputs);
 
-  if (kebab) console.log(createKebabCase(splittedWords));
-  if (snake) console.log(createSnakeCase(splittedWords));
-  if (flat) console.log(createFlatCase(splittedWords));
-  if (camel) console.log(createCamelCase(splittedWords));
-  if (pascal) console.log(createPascalCase(splittedWords));
-  if (screamingKebab) console.log(createScreamingKebabCase(splittedWords));
-  if (screamingSnake) console.log(createScreamingSnakeCase(splittedWords));
+  if (kebab) console.log(createKebabCase(words));
+  if (snake) console.log(createSnakeCase(words));
+  if (flat) console.log(createFlatCase(words));
+  if (camel) console.log(createCamelCase(words));
+  if (pascal) console.log(createPascalCase(words));
+  if (screamingKebab) console.log(createScreamingKebabCase(words));
+  if (screamingSnake) console.log(createScreamingSnakeCase(words));
 }
 
 main(Deno.args);
