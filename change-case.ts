@@ -4,97 +4,103 @@ import { readLines } from "https://deno.land/std/io/bufio.ts";
 const IS_CASELESS_REGEX = /^([a-z]+|[A-Z]+)$/g;
 const isCaseless = (word: string): boolean => !!word.match(IS_CASELESS_REGEX);
 
-const compose = <R>(...fns: Array<(a: R) => R>) => (
-  fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)))
-);
+function compose<R>(...fns: Array<(a: R) => R>) {
+  return fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)));
+}
 
-const splitInput = (input: string): Array<string> => {
+function splitInput(input: string): Array<string> {
   return input.split(/[ _-]/g);
-};
+}
 
-const joinArraysOfLettersToWords = (
+function joinArraysOfLettersToWords(
   arraysOfLetters: Array<Array<string>>,
-): Array<string> => (
-  arraysOfLetters.reduce((wordArray, letterArray) => {
+): Array<string> {
+  return arraysOfLetters.reduce((wordArray, letterArray) => {
     wordArray.push(letterArray.join(""));
     return wordArray;
-  }, [])
-);
+  }, []);
+}
 
-const splitWordWithCaseChange = (word: string): Array<string> => {
+function splitWordWithCaseChange(word: string): Array<string> {
   let isWordBeginning = true;
-  let splittedWordsLetters: Array<Array<string>> = [[]];
+  const lettersOfSplitUpWords: Array<Array<string>> = [[]];
 
   for (const letter of word) {
     if (letter.match(/[A-Z]/) && !isWordBeginning) {
-      splittedWordsLetters.push([letter]);
+      lettersOfSplitUpWords.push([letter]);
       isWordBeginning = true;
     } else {
-      splittedWordsLetters[splittedWordsLetters.length - 1].push(letter);
+      lettersOfSplitUpWords[lettersOfSplitUpWords.length - 1].push(letter);
       isWordBeginning = false;
     }
   }
 
-  return joinArraysOfLettersToWords(splittedWordsLetters);
-};
+  return joinArraysOfLettersToWords(lettersOfSplitUpWords);
+}
 
-const splitWordsWithCaseChange = (words: Array<string>): Array<string> => {
+function splitWordsWithCaseChange(words: Array<string>): Array<string> {
   if (words.every((word) => isCaseless(word))) return words;
 
   return words.reduce((newWords: Array<string>, word) => {
     const splittedWords = splitWordWithCaseChange(word);
     return newWords.concat(splittedWords);
   }, []);
-};
+}
 
-const lowerCaseWords = (words: Array<string>): Array<string> => (
-  words.map((word) => word.toLowerCase())
-);
+function lowerCaseWords(words: Array<string>): Array<string> {
+  return words.map((word) => word.toLowerCase());
+}
 
-const upperCaseWords = (words: Array<string>): Array<string> => (
-  words.map((word) => word.toUpperCase())
-);
+function upperCaseWords(words: Array<string>): Array<string> {
+  return words.map((word) => word.toUpperCase());
+}
 
-const capitalizeWords = (words: Array<string>): Array<string> => (
-  words
+function capitalizeWords(words: Array<string>): Array<string> {
+  return words
     .map((word) => {
       const [firstLetter, ...rest] = word;
       return `${firstLetter.toUpperCase()}${rest.join("")}`;
-    })
-);
+    });
+}
 
-const removeNonAlphaNumericChars = (
+function removeNonAlphaNumericChars(
   unfilteredWords: Array<string>,
-): Array<string> => {
+): Array<string> {
   return unfilteredWords
     .map((word) => word.replace(/[^0-9a-z]/gi, ""))
     .filter(Boolean);
-};
+}
 
-const createKebabCase = (words: Array<string>): string => words.join("-");
+function createKebabCase(words: Array<string>): string {
+  return words.join("-");
+}
 
-const createSnakeCase = (words: Array<string>): string => words.join("_");
+function createSnakeCase(words: Array<string>): string {
+  return words.join("_");
+}
 
-const createFlatCase = (words: Array<string>): string => words.join("");
+function createFlatCase(words: Array<string>): string {
+  return words.join("");
+}
 
-const createPascalCase = (words: Array<string>): string => (
-  upperCaseWords(words).join("")
-);
+function createPascalCase(words: Array<string>): string {
+  return upperCaseWords(words).join("");
+}
 
-const createCamelCase = (words: Array<string>): string => {
+function createCamelCase(words: Array<string>): string {
   const [first, ...rest] = words;
   return `${first}${capitalizeWords(rest).join("")}`;
-};
+}
 
-const createScreamingKebabCase = (words: Array<string>): string => (
-  upperCaseWords(words).join("-")
-);
+function createScreamingKebabCase(words: Array<string>): string {
+  return upperCaseWords(words).join("-");
+}
 
-const createScreamingSnakeCase = (words: Array<string>): string => (
-  upperCaseWords(words).join("_")
-);
+function createScreamingSnakeCase(words: Array<string>): string {
+  return upperCaseWords(words).join("_");
+}
 
-const getPipeInput = async (): Promise<string> => {
+async function getPipeInput(): Promise<string> {
   let pipedInput = "";
   if (Deno.isatty(Deno.stdin.rid)) return pipedInput;
 
@@ -103,7 +109,7 @@ const getPipeInput = async (): Promise<string> => {
   }
 
   return pipedInput;
-};
+}
 
 async function main(args: Array<string>): Promise<void> {
   const {
